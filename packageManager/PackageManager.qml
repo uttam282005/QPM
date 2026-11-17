@@ -139,12 +139,7 @@ Scope {
             implicitHeight: 640
             mask: Region { item: card }
 
-            Component.onCompleted: GlobalFocusGrab.addDismissable(panelWindow)
-            Component.onDestruction: GlobalFocusGrab.removeDismissable(panelWindow)
-            Connections {
-                target: GlobalFocusGrab
-                function onDismissed() { GlobalStates.packageManagerOpen = false }
-            }
+            // No GlobalFocusGrab: polkit prompts and AUR terminals take focus, which would dismiss the panel mid-task.
 
             StyledRectangularShadow { target: card }
 
