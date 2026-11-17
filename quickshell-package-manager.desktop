@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Package Manager
+GenericName=Package Manager
+Comment=Browse, install, update and remove Arch packages (pacman + AUR)
+Exec=qs -c @CONFIG@ ipc call packageManager toggle
+Icon=system-software-install
+Categories=System;PackageManager;
+Keywords=pacman;aur;yay;packages;install;update;remove;
+Terminal=false
