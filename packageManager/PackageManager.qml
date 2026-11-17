@@ -10,6 +10,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
+import Quickshell.Hyprland
 
 // Pacman/AUR manager. Repo transactions run through pkexec (shell's polkit agent) with output streamed below;
 // AUR builds open kitty + yay since they need PKGBUILD review and sudo on a tty.
@@ -139,7 +140,12 @@ Scope {
             implicitHeight: 640
             mask: Region { item: card }
 
-            // No GlobalFocusGrab: polkit prompts and AUR terminals take focus, which would dismiss the panel mid-task.
+            // Close on outside click, but pause while polkit prompts / AUR terminals hold focus mid-task.
+            HyprlandFocusGrab {
+                windows: [panelWindow]
+                active: !txProc.running && !aurProc.running
+                onCleared: if (!txProc.running && !aurProc.running) GlobalStates.packageManagerOpen = false
+            }
 
             StyledRectangularShadow { target: card }
 
