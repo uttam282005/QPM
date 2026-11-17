@@ -35,7 +35,7 @@ cd quickshell-package-manager
 ./install.sh        # or ./install.sh <config-name> if your config isn't ~/.config/quickshell/ii
 ```
 
-The script symlinks the module into your config (so `git pull` updates it), registers it in `GlobalStates.qml` and `IllogicalImpulseFamily.qml`, and installs a `Package Manager` desktop entry for your launcher. Quickshell reloads on its own.
+The script copies the module into your config, registers it in `GlobalStates.qml` and `IllogicalImpulseFamily.qml`, and installs a `Package Manager` desktop entry for your launcher. Quickshell reloads on its own. To update later: `git pull && ./install.sh`.
 
 ## Keybind
 

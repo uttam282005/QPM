@@ -10,12 +10,14 @@ states="$root/GlobalStates.qml"
 target="$root/modules/ii/packageManager"
 
 [[ -f $family && -f $states ]] || { echo "error: no illogical-impulse config at $root" >&2; exit 1; }
-[[ -e $target && ! -L $target ]] && { echo "error: $target exists and is not a symlink; remove it first" >&2; exit 1; }
+[[ -e $target && ! -L $target && ! -f $target/PackageManager.qml ]] && { echo "error: $target exists and isn't ours; remove it first" >&2; exit 1; }
 for dep in yay expac checkupdates pkexec kitty fish; do
     command -v "$dep" >/dev/null || echo "warning: '$dep' not found (see README)" >&2
 done
 
-ln -sfn "$here/packageManager" "$target"
+# Copy, don't symlink: Quickshell doesn't hot-reload files reached through a symlinked directory.
+rm -rf "$target"
+cp -r "$here/packageManager" "$target"
 grep -q 'packageManagerOpen' "$states" ||
     sed -i '0,/^    property bool /s//    property bool packageManagerOpen: false\n&/' "$states"
 grep -q 'qs.modules.ii.packageManager' "$family" ||
